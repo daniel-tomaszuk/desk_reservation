@@ -7,8 +7,12 @@
         <p>User: {{ request.user.username }}</p>
         <p>{{ reservation.desk.office.name }} {{ reservation.desk.number }}, {{ reservation.date | date:'d-m-y' }}</p>
         <p>Is confirmed: {{ reservation.confirmed | yesno:"Confirmed, Unconfirmed" }}</p>
-        <button class="btn btn-warning">Cancel</button>
-        <button class="btn btn-primary">Confirm</button>
+        <button class="btn btn-warning btn-xs" onclick="location.href='{% url 'reserve_app:reservation_details' %}'" type="button">
+            Cancel
+        </button>
+        <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'reserve_app:reservation_details' %}'" type="button">
+            Confirm
+        </button>
     {% endwith %}
     </div>
 {% endblock %}

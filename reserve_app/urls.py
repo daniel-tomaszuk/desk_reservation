@@ -15,9 +15,12 @@ Including another URLconf
 """
 from django.urls import path
 
-from reserve_app.views import ReservationDetailView
+from reserve_app.views import ReservationDetailView, DeleteReservation, \
+    ConfirmReservation
 
 app_name = "reserve_app"
 urlpatterns = [
-    path('', ReservationDetailView.as_view(), name='reservation_details')
+    path('', ReservationDetailView.as_view(), name='reservation_details'),
+    path('cancel_reservation/<int:pk>/', DeleteReservation.as_view(), name='reservation_delete'),
+    path('confirm_reservation/<int:pk>/', ConfirmReservation.as_view(), name='reservation_confirm'),
 ]

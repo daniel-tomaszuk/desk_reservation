@@ -21,6 +21,7 @@ class Reservation(models.Model):
     desk = models.ForeignKey(Desk, on_delete=models.CASCADE)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date = models.DateField(null=True, blank=True)
+    confirmed = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True, db_index=True)
 
     def __str__(self):

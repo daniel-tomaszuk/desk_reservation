@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Cancel Reservation{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to cancel "{{ object }}"?</p>
+        <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'reserve_app:reservation_details' %}'" type="button">
+            Go back
+        </button>
+        <input type="submit" class="btn btn-warning btn-xs" value="Cancel Reservation">
+</form>
+{% endblock %}

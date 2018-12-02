@@ -1,5 +1,14 @@
-{% extends base.html %}
+{% extends "base.html" %}
 {% block title %}Reservation Details{% endblock %}
 {% block content %}
     <h1>Reservation Details!</h1>
+    <div>
+    {% with reservation=object_list%}
+        <p>User: {{ request.user.username }}</p>
+        <p>{{ reservation.desk.office.name }} {{ reservation.desk.number }}, {{ reservation.date | date:'d-m-y' }}</p>
+        <p>Is confirmed: {{ reservation.confirmed | yesno:"Confirmed, Unconfirmed" }}</p>
+        <button class="btn btn-warning">Cancel</button>
+        <button class="btn btn-primary">Confirm</button>
+    {% endwith %}
+    </div>
 {% endblock %}

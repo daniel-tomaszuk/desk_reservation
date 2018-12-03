@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Select Reservation Date{% endblock %}
+{% block content %}
+    <div>
+        <p>Select reservation date:</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input class="btn btn-primary btn-xs" type="submit" value="Select Date">
+        </form>
+    </div>
+{% endblock %}

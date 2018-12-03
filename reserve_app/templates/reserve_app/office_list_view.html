@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Select Office{% endblock %}
+{% block content %}
+    <p>Select Office:</p>
+    {% with offices=object_list %}
+        {% for office in offices %}
+            <div>
+                <a href="{% url 'reserve_app:select_office' office.id %}">{{ office.name }}</a>
+            </div>
+        {% endfor %}
+    {% endwith %}
+{% endblock %}

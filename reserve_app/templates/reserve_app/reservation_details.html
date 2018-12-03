@@ -8,13 +8,14 @@
             <p>User: {{ request.user.username }}</p>
             <p>{{ reservation.desk.office.name }} {{ reservation.desk.number }}, {{ reservation.date | date:'d-m-y' }}</p>
             <p>Is confirmed: {{ reservation.confirmed | yesno:"Confirmed, Unconfirmed" }}</p>
+            {% if not reservation.confirmed %}
             <button class="btn btn-warning btn-xs" onclick="location.href='{% url 'reserve_app:reservation_delete' reservation.id %}'" type="button">
                 Cancel
             </button>
             <button class="btn btn-primary btn-xs" onclick="location.href='{% url 'reserve_app:reservation_confirm' reservation.id %}'" type="button">
                 Confirm
             </button>
-
+            {% endif %}
         {% else %}
             <p>No reservation!</p>
         {% endif %}

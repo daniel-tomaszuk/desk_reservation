@@ -1,9 +1,13 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.text import slugify
 
 
 class Office(models.Model):
     name = models.CharField(max_length=255, null=True)
+
+    def get_slug(self):
+        return slugify(self.name)
 
     def __str__(self):
         return self.name

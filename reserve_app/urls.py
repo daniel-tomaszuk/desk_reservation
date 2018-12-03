@@ -16,11 +16,15 @@ Including another URLconf
 from django.urls import path
 
 from reserve_app.views import ReservationDetailView, DeleteReservation, \
-    ConfirmReservation
+    ConfirmReservation, OfficeListView, OfficeSelect, DateSelect
 
 app_name = "reserve_app"
 urlpatterns = [
     path('', ReservationDetailView.as_view(), name='reservation_details'),
     path('cancel_reservation/<int:pk>/', DeleteReservation.as_view(), name='reservation_delete'),
     path('confirm_reservation/<int:pk>/', ConfirmReservation.as_view(), name='reservation_confirm'),
+    path('offices_list/', OfficeListView.as_view(), name='office_list'),
+    path('select_office/<int:pk>/', OfficeSelect.as_view(), name='select_office'),
+    path('select_date/', DateSelect.as_view(), name='select_date'),
+
 ]

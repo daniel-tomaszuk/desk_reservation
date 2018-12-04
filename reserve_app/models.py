@@ -4,7 +4,7 @@ from django.utils.text import slugify
 
 
 class Office(models.Model):
-    name = models.CharField(max_length=255, null=True)
+    name = models.CharField(max_length=255, null=True, unique=True)
 
     def get_slug(self):
         return slugify(self.name)
@@ -14,6 +14,8 @@ class Office(models.Model):
 
 
 class Desk(models.Model):
+    class Meta:
+        unique_together = ('number', 'office')
     number = models.CharField(max_length=16)
     office = models.ForeignKey(Office, on_delete=models.CASCADE,
                                related_name='desks')

@@ -1,4 +1,5 @@
 import redis
+from django.db.models import Prefetch
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -7,12 +8,13 @@ from django.views.generic import ListView, DeleteView, UpdateView, View, \
 
 from desk_reservation import settings
 from reserve_app.forms import DateForm
-from reserve_app.models import Reservation, Office
+from reserve_app.models import Reservation, Office, Desk
 
 # create object for connecting wih redis
 r = redis.StrictRedis(host=settings.REDIS_HOST,
                       port=settings.REDIS_PORT,
-                      db=settings.REDIS_DB)
+                      db=settings.REDIS_DB,
+                      decode_responses=True)
 
 
 class ReservationDetailView(ListView):
@@ -53,14 +55,14 @@ class OfficeListView(ListView):
 class OfficeSelect(View):
     def get(self, request, *args, **kwargs):
         r.set('username_{}:office'.format(request.user.username),
-              str(kwargs.get('pk')))
+              str(kwargs.get('name')))
         return HttpResponseRedirect(reverse_lazy('reserve_app:select_date'))
 
 
 class DateSelect(FormView):
     form_class = DateForm
     template_name = 'reserve_app/date_select.html'
-    success_url = reverse_lazy('reserve_app:reservation_details')
+    success_url = reverse_lazy('reserve_app:desk_list')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -69,3 +71,23 @@ class DateSelect(FormView):
         return super().form_valid(form)
 
 
+class DeskListView(ListView):
+    model = Desk
+    template_name = 'reserve_app/desk_list_view.html'
+
+    def get_queryset(self):
+        username = self.request.user.username
+        selected_city = r.get(f"username_{username}:office")
+        selected_date = r.get(f"username_{username}:date")
+        query = Desk.objects.filter(office__name=selected_city)\
+            .prefetch_related(
+            Prefetch('reservations',
+                     queryset=Reservation.objects.filter(date=selected_date),
+                     to_attr='reservation'))
+        return query
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context.setdefault('office',
+                           r.get(f"username_{self.request.user.username}:office"))
+        return context

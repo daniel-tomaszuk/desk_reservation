@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Desk List View{% endblock %}
+{% block content %}
+    <div>
+        <p>{{ office|capfirst }} Desk list</p>
+        <table border="1">
+            <tr>
+                <th>Number</th>
+                <th>Username</th>
+                <th>Reservation Date</th>
+                <th>Is confirmed</th>
+            </tr>
+            {% for desk in desk_list %}
+                {% with reservation=desk.reservation.0 %}
+                <tr>
+                    <td>{{ desk.number }}</td>
+                    <td>{{ reservation.user.username }}</td>
+                    <td>{{ reservation.date|date:"Y-m-d" }}</td>
+                    <td>{{ reservation.confirmed }}</td>
+                </tr>
+                {% endwith %}
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

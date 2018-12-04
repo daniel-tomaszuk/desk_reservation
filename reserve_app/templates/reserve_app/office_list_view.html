@@ -5,7 +5,7 @@
     {% with offices=object_list %}
         {% for office in offices %}
             <div>
-                <a href="{% url 'reserve_app:select_office' office.id %}">{{ office.name }}</a>
+                <a href="{% url 'reserve_app:select_office' office.name %}">{{ office.name }}</a>
             </div>
         {% endfor %}
     {% endwith %}

@@ -15,14 +15,16 @@ class Office(models.Model):
 
 class Desk(models.Model):
     number = models.CharField(max_length=16)
-    office = models.ForeignKey(Office, on_delete=models.CASCADE)
+    office = models.ForeignKey(Office, on_delete=models.CASCADE,
+                               related_name='desks')
 
     def __str__(self):
         return f"{self.office} {self.number}"
 
 
 class Reservation(models.Model):
-    desk = models.ForeignKey(Desk, on_delete=models.CASCADE)
+    desk = models.ForeignKey(Desk, on_delete=models.CASCADE,
+                             related_name='reservations')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     date = models.DateField(null=True, blank=True)
     confirmed = models.BooleanField(default=False)

@@ -30,4 +30,4 @@ class Reservation(models.Model):
 
     def __str__(self):
         return f"{self.desk.office.name} {self.desk.number} " \
-               f"{self.user.username}"
+               f"{self.user.username} {self.date}"
